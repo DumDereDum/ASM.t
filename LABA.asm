@@ -125,6 +125,7 @@ print1:
 	int 21h
 	cmp al, 0Dh ;  ожидает Ентер
 	je wenter
+	loop cycle
 	
 wenter:	
 	mov ah, 02h
