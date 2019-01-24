@@ -174,7 +174,7 @@ errorletter db "error, please reload program... $"
 
 Handler DW ?
 
-BufIn DB 20 dup(1) ; как я понял:
+BufIn DB 2048 dup(1) ; как я понял:
 ; DB - показывает что создаются символы
 ; 2048 - кол-во символов, почему столько я хз
 ; dup(1) - заполнить 2048 единицами
