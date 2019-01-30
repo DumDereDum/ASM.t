@@ -42,8 +42,6 @@ a:
 	int 21h
 	jc error2
 	
-	mov length_block, ax
-	
 	mov ah, 3Eh
 	mov bx, offset handle
 	int 21h
@@ -56,15 +54,6 @@ cycle:
 	call change_and_print
 	loop cycle
 
-;	dec si
-;	mov ds:[si], byte ptr al
-;	inc si
-;	
-;	mov dx, si
-;	sub dx, handle
-;	cmp dx, length_block
-;	jnz cycle
-	
 	jmp press_button2
 
 continue:
