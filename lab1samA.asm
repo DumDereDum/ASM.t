@@ -34,15 +34,17 @@ begin:
 	int 21h
 	jc error1
 	
-	mov handle, ax
-	mov bx, ax
+	mov handle, ax	
+a:	
+	mov bx, handle
 	mov ah, 3Fh
-	mov cx, 2000
+	mov cx, 80
 	mov dx, offset buffer
 	int 21h
 	jc error2
 	
-a:	
+	
+    mov cx, 80
 	mov si, offset buffer
 	mov di, cx
 	
@@ -55,12 +57,12 @@ cycle:
 
 continue:
 	
-	cmp di, 1999
+	cmp di, 79
 	jna off
 	mov ax, 4201h
 	mov bx, handle
 	mov cx, 0
-	mov dx, 2000
+	mov dx, 2
 	int 21h
 
 	jmp a
@@ -195,7 +197,7 @@ change_and_print endp
 
 ;----------Данные----------
 	filename db 40 dup (' ')
-	buffer dw 2000 dup(' ')
+	buffer dw 80 dup(' ')
 	handle dw 0
 ;----------Сообщения---------	
 	msg_error_file db ' Error: file is not found', 0Ah, 0Dh, '$'
