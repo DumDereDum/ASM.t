@@ -38,13 +38,13 @@ begin:
 a:	
 	mov bx, handle
 	mov ah, 3Fh
-	mov cx, 80
+	mov cx, 2048
 	mov dx, offset buffer
 	int 21h
 	jc error2
 	
 	
-    mov cx, 80
+    mov cx, 2048
 	mov si, offset buffer
 	mov di, cx
 	
@@ -57,7 +57,7 @@ cycle:
 
 continue:
 	
-	cmp di, 79
+	cmp di, 2047
 	jna off
 	mov ax, 4201h
 	mov bx, handle
@@ -197,7 +197,7 @@ change_and_print endp
 
 ;----------Данные----------
 	filename db 40 dup (' ')
-	buffer dw 80 dup(' ')
+	buffer dw 2048 dup(' ')
 	handle dw 0
 ;----------Сообщения---------	
 	msg_error_file db ' Error: file is not found', 0Ah, 0Dh, '$'
