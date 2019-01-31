@@ -26,16 +26,20 @@ begin:
 	mov dx, offset filename
 	int 21h
 	
-	xor bh, bh
-	mov bl, filename[1]
-	mov filename[bx+2], 0
-	mov ax, 3D00h
-	mov dx, offset filename+2
-	int 21h
+	call read_filename
+
 	jc error1
 	
-	mov handle, ax	
+	mov handle, ax
+	
+	call last_char
+	
+	call read_filename
+
+	mov handle, ax
+	
 a:	
+
 	mov bx, handle
 	mov ah, 3Fh
 	mov cx, 2048
@@ -52,7 +56,7 @@ cycle:
 	lodsb
 	call change_and_print
 	loop cycle
-	
+
 	jmp press_button2
 
 continue:
@@ -64,10 +68,13 @@ continue:
 	mov cx, 0
 	mov dx, 2
 	int 21h
-
+	
+	cmp reg, ax
+	jna off
+	
 	jmp a
 	
-	jmp off
+	
 	
 press_button1:
 
@@ -130,6 +137,32 @@ off:
 	int 20h
 
 ;----------Пoдпрограммы----------
+
+read_filename proc
+
+	xor bh, bh
+	mov bl, filename[1]
+	mov filename[bx+2], 0
+	mov ax, 3D00h
+	mov dx, offset filename+2
+	int 21h
+	
+	ret
+read_filename endp
+
+last_char proc
+	
+	push ax
+	mov ax, 4202h
+	mov bx, handle
+	mov cx, 0
+	mov dx, 1
+	int 21h
+	mov reg, ax
+	pop ax
+
+	ret
+last_char endp
 
 print_ECS_Space proc
 	
@@ -199,6 +232,7 @@ change_and_print endp
 	filename db 40 dup (' ')
 	buffer dw 2048 dup(' ')
 	handle dw 0
+	reg dw 0
 ;----------Сообщения---------	
 	msg_error_file db ' Error: file is not found', 0Ah, 0Dh, '$'
 	msg_error_buffer db ' Error: can not read file', 0Ah, 0Dh, '$'
