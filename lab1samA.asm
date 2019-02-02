@@ -32,13 +32,7 @@ begin:
 	
 	mov handle, ax
 	
-	call last_char
-	
-	call read_filename
-
-	mov handle, ax
-	
-a:	
+new_block:
 
 	mov bx, handle
 	mov ah, 3Fh
@@ -47,34 +41,36 @@ a:
 	int 21h
 	jc error2
 	
+	cmp ax,0
+	je off
+	cmp ax, 2048
+	ja no_change_cx
+	mov cx, ax
+	jmp cx_changed
 	
-    mov cx, 2048
+no_change_cx:
+    
+	mov cx, 2048
+
+cx_changed:
+	
 	mov si, offset buffer
-	mov di, cx
 	
 cycle:
 	lodsb
 	call change_and_print
 	loop cycle
-
 	jmp press_button2
 
 continue:
 	
-	cmp di, 2047
-	jna off
 	mov ax, 4201h
 	mov bx, handle
 	mov cx, 0
 	mov dx, 2
 	int 21h
 	
-	cmp reg, ax
-	jna off
-	
-	jmp a
-	
-	
+	jmp new_block
 	
 press_button1:
 
