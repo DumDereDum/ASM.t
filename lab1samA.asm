@@ -22,7 +22,7 @@ begin:
 	mov dx, offset msg_write_name
 	call print
 	
-	mov ah, 0Ah ; функция которая записывает в буфер то что ввели в строчке
+	mov ah, 0Ah 
 	mov dx, offset filename
 	int 21h
 	
