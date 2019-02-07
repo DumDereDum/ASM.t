@@ -146,20 +146,6 @@ read_filename proc
 	ret
 read_filename endp
 
-last_char proc
-	
-	push ax
-	mov ax, 4202h
-	mov bx, handle
-	mov cx, 0
-	mov dx, 1
-	int 21h
-	mov reg, ax
-	pop ax
-
-	ret
-last_char endp
-
 print_ECS_Space proc
 	
 	mov dx, offset msg_press_ESC
@@ -235,6 +221,3 @@ change_and_print endp
 	msg_press_ESC db 'Press ESC for exit', 0Ah, 0Dh, '$'
 	msg_press_Space db 'Press Space for continue', 0Ah, 0Dh, '$'
 	msg_write_name db 'Write a filename', 0Ah, 0Dh, '$'
-
-CSEG ends
-end start
